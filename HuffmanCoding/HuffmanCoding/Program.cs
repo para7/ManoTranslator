@@ -30,13 +30,13 @@ namespace HuffmanCoding
             StreamReader reader
                 = new StreamReader(
        "data.txt");
-
-            string str = reader.ReadToEnd();
+            
+            string str = new string(reader.ReadToEnd().Where(a => a != '゛').ToArray());
 
             reader.Close();
 
             var dic = new SortedList<char, int>();
-            
+
             foreach(char c in str)
             {
                 if (dic.ContainsKey(c))
@@ -48,7 +48,7 @@ namespace HuffmanCoding
                     dic.Add(c, 1);
                 }
             }
-
+            
             var list = new LinkedList<ListData>();
 
             foreach(var a in dic)
