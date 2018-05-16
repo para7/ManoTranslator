@@ -88,7 +88,7 @@ namespace HuffmanCoding
 
             dic = null;
 
-            /*
+            
             double p = 0;
             foreach (var l in list)
             {
@@ -101,11 +101,12 @@ namespace HuffmanCoding
                 p += l.prob;
             }
 
-            Console.WriteLine(p);
-            Console.Write(str.Length);
-            */
-
+            Console.WriteLine("prob_sum: {0}", p);
+            Console.WriteLine(str.Length);
+            
             Node root = new Node();
+
+            
 
             //ツリーの構築
             while (list.Count != 1)
@@ -124,9 +125,49 @@ namespace HuffmanCoding
             }
 
             //ツリーを潜っていく
-            var sta = new Stack<Node>();
+            sta = new Stack<Node>();
 
+            sta.Push(root);
 
+            manotree = new Dictionary<char, string>();
+
+            dfs();
+            
+            foreach(var m in manotree)
+            {
+                Console.WriteLine("{0}, {1}", m.Key, m.Value);
+            }
+            
+        }
+
+        static Stack<Node> sta;
+
+        static Dictionary<char, string> manotree;
+
+        static void dfs()
+        {
+            var c = sta.First().data.c;
+
+            Console.Write(c);
+
+            if (c != '0' && c != '1' && c != 'n')
+            {
+                sta.Pop();
+                
+                manotree.Add(c, new string(sta.Select(x => x.data.c).ToArray()));
+
+                return;
+            }
+            
+            Console.WriteLine(" {0}",c);
+
+            sta.Push(sta.First().Left);
+            dfs();
+            sta.Pop();
+
+            sta.Push(sta.First().Right);
+            dfs();
+            sta.Pop();
         }
 
         static Node MakeTree(ListData parent, ListData left, ListData right)
@@ -147,10 +188,14 @@ namespace HuffmanCoding
             {
                 r.data.c = '1';
             }
-            
-            r.parent = l.parent = p;
+
+            r.parent = p;
+            l.parent = p;
+
             p.Right = r;
             p.Left = l;
+
+            Console.WriteLine("p={0} l={1} r={2}", p.data.c, p.Left.data.c, p.Right.data.c);
         
             return p;
         }
