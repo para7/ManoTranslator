@@ -13,8 +13,7 @@ namespace HuffmanCoding
         public Node Left;
         public Node Right;
 
-        public char c;
-        public double prob;
+        public ListData data;
     }
 
     public class ListData
@@ -35,12 +34,6 @@ namespace HuffmanCoding
     {
         static void InsertSort(LinkedList<ListData> list, ListData data)
         {
-            //if(list.Count == 0)
-            //{
-            //    list.AddFirst(data);
-            //    return;
-            //}
-            
             for (var l = list.First; l != null; l = l.Next)
             {
                 if (data.prob < l.Value.prob)
@@ -63,9 +56,9 @@ namespace HuffmanCoding
             //出現確率の操作
             string manu = "まのちゃんかわい";
 
-            foreach(var c in manu)
+            foreach (var c in manu)
             {
-                str += new string(c, 4000);
+                str += new string(c, 1200);
             }
 
             var dic = new SortedList<char, int>();
@@ -84,6 +77,7 @@ namespace HuffmanCoding
 
             var list = new LinkedList<ListData>();
 
+            //確率順にソート
             foreach (var d in dic)
             {
                 var hoge = new ListData();
@@ -92,10 +86,13 @@ namespace HuffmanCoding
                 InsertSort(list, hoge);
             }
 
+            dic = null;
+
+            /*
             double p = 0;
             foreach (var l in list)
             {
-                if(manu.Contains(l.c))
+                if (manu.Contains(l.c))
                 {
                     Console.Write("- ");
                 }
@@ -106,6 +103,54 @@ namespace HuffmanCoding
 
             Console.WriteLine(p);
             Console.Write(str.Length);
+            */
+
+            Node root = new Node();
+
+            //ツリーの構築
+            while (list.Count != 1)
+            {
+                var left = list.First();
+                list.RemoveFirst();
+
+                var right = list.First();
+                list.RemoveFirst();
+
+                var parent = new ListData('n', left.prob + right.prob);
+
+                InsertSort(list, parent);
+
+                root = MakeTree(parent, left, right);
+            }
+
+            //ツリーを潜っていく
+
+        }
+
+        static Node MakeTree(ListData parent, ListData left, ListData right)
+        {
+            var p = new Node();
+            p.data = parent;
+
+            var l = new Node();
+            l.data = left;
+            if(l.data.c == 'n')
+            {
+                l.data.c = '0';
+            }
+            
+            var r = new Node();
+            r.data = right;
+            if (r.data.c == 'n')
+            {
+                r.data.c = '0';
+            }
+            
+            r.parent = l.parent = p;
+            p.Right = r;
+            p.Left = l;
+        
+            return p;
         }
     }
 }
