@@ -124,6 +124,8 @@ namespace HuffmanCoding
             }
 
             //ツリーを潜っていく
+            var sta = new Stack<Node>();
+
 
         }
 
@@ -143,7 +145,7 @@ namespace HuffmanCoding
             r.data = right;
             if (r.data.c == 'n')
             {
-                r.data.c = '0';
+                r.data.c = '1';
             }
             
             r.parent = l.parent = p;
