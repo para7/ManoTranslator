@@ -18,12 +18,12 @@ namespace HuffmanCoding
 
     public class ListData
     {
-        public char c;
+        public string c;
         public double prob;
 
         public ListData() { }
 
-        public ListData(char _c, double _prob)
+        public ListData(string _c, double _prob)
         {
             c = _c;
             prob = _prob;
@@ -32,17 +32,17 @@ namespace HuffmanCoding
 
     static class Program
     {
-        static void InsertSort(LinkedList<ListData> list, ListData data)
+        static void InsertSort(LinkedList<Node> list, Node node)
         {
             for (var l = list.First; l != null; l = l.Next)
             {
-                if (data.prob < l.Value.prob)
+                if (node.data.prob < l.Value.data.prob)
                 {
-                    list.AddBefore(l, data);
+                    list.AddBefore(l, node);
                     return;
                 }
             }
-            list.AddLast(data);
+            list.AddLast(node);
         }
 
         static void Main(string[] args)
@@ -75,38 +75,39 @@ namespace HuffmanCoding
                 }
             }
 
-            var list = new LinkedList<ListData>();
+            var list = new LinkedList<Node>();
 
             //確率順にソート
             foreach (var d in dic)
             {
-                var hoge = new ListData();
-                hoge.prob = (double)d.Value / str.Length;
-                hoge.c = d.Key;
+                var hoge = new Node();
+                hoge.data = new ListData();
+                hoge.data.prob = (double)d.Value / str.Length;
+                hoge.data.c = d.Key.ToString();
                 InsertSort(list, hoge);
             }
 
             dic = null;
-
             
+            //確率の表示
             double p = 0;
             foreach (var l in list)
             {
-                if (manu.Contains(l.c))
+                if (manu.Contains(l.data.c))
                 {
                     Console.Write("- ");
                 }
 
-                Console.WriteLine("{0} {1}", l.c, l.prob);
-                p += l.prob;
+                Console.WriteLine("{0} {1}", l.data.c, l.data.prob);
+                p += l.data.prob;
             }
 
             Console.WriteLine("prob_sum: {0}", p);
             Console.WriteLine(str.Length);
-            
+
             Node root = new Node();
 
-            
+
 
             //ツリーの構築
             while (list.Count != 1)
@@ -117,7 +118,10 @@ namespace HuffmanCoding
                 var right = list.First();
                 list.RemoveFirst();
 
-                var parent = new ListData('n', left.prob + right.prob);
+                var parent = new Node();
+                parent.data = new ListData();
+                parent.data.c = left.data.c + right.data.c;
+                parent.data.prob = left.data.prob + right.data.prob;
 
                 InsertSort(list, parent);
 
@@ -131,13 +135,15 @@ namespace HuffmanCoding
 
             manotree = new Dictionary<char, string>();
 
+            //root.data.c = " ";
+
             dfs();
-            
-            foreach(var m in manotree)
+
+            foreach (var m in manotree)
             {
                 Console.WriteLine("{0}, {1}", m.Key, m.Value);
             }
-            
+
         }
 
         static Stack<Node> sta;
@@ -146,58 +152,44 @@ namespace HuffmanCoding
 
         static void dfs()
         {
-            var c = sta.First().data.c;
+            string c = sta.First().data.c;
 
-            Console.Write(c);
-
-            if (c != '0' && c != '1' && c != 'n')
+            if (sta.Count > 1 && (c != "0" && c != "1"))
             {
-                sta.Pop();
-                
-                manotree.Add(c, new string(sta.Select(x => x.data.c).ToArray()));
-
-                return;
+                var hoge = new string( sta.Select(x => x.data.c.First()).ToArray() );
+                Console.WriteLine("{0} {1}", c, hoge);
             }
-            
-            Console.WriteLine(" {0}",c);
+            else
+            {
+                sta.Push(sta.First().Left);
+                dfs();
 
-            sta.Push(sta.First().Left);
-            dfs();
-            sta.Pop();
+                sta.Push(sta.First().Right);
+                dfs();
+            }
 
-            sta.Push(sta.First().Right);
-            dfs();
             sta.Pop();
         }
 
-        static Node MakeTree(ListData parent, ListData left, ListData right)
+        static Node MakeTree(Node parent, Node left, Node right)
         {
-            var p = new Node();
-            p.data = parent;
-
-            var l = new Node();
-            l.data = left;
-            if(l.data.c == 'n')
+            if (left.data.c.Length > 1)
             {
-                l.data.c = '0';
+                left.data.c = "0";
             }
             
-            var r = new Node();
-            r.data = right;
-            if (r.data.c == 'n')
+            if (right.data.c.Length > 1)
             {
-                r.data.c = '1';
+                right.data.c = "1";
             }
 
-            r.parent = p;
-            l.parent = p;
-
-            p.Right = r;
-            p.Left = l;
-
-            Console.WriteLine("p={0} l={1} r={2}", p.data.c, p.Left.data.c, p.Right.data.c);
-        
-            return p;
+            right.parent = parent;
+            left.parent = parent;
+            
+            parent.Right = right;
+            parent.Left = left;
+            
+            return parent;
         }
     }
 }
