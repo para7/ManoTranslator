@@ -202,6 +202,7 @@ namespace HuffmanCoding
             sta.Push(root);
 
             manotree = new Dictionary<char, string>();
+            check = new Dictionary<string, char>();
 
             root.data.c = " ";
 
