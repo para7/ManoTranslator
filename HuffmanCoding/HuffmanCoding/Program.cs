@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace HuffmanCoding
 {
@@ -31,6 +34,20 @@ namespace HuffmanCoding
         {
             c = _c;
             prob = _prob;
+        }
+    }
+
+    [Serializable]
+    public class Serial
+    {
+        public char key;
+        public string value;
+
+        public Serial() { }
+        public Serial(char k, string v)
+        {
+            key = k;
+            value = v;
         }
     }
 
@@ -71,7 +88,7 @@ namespace HuffmanCoding
                 var hoge = new string(sta.Select(x => x.code).ToArray());
 
                 //Reverseは不要かもしれない
-                var value = new string(hoge.Substring(0, hoge.Length-1).Reverse().ToArray());//.Replace("0", "ほわっ").Replace("1", "むんっ");
+                var value = new string(hoge.Substring(0, hoge.Length-1).Reverse().ToArray()).Replace("0", "ほわっ").Replace("1", "むんっ");
 
                 //辞書に登録
                 manotree.Add(c[0], value);
@@ -204,13 +221,26 @@ namespace HuffmanCoding
 
             dfs();
 
+            var output = new Serial[manotree.Count];
+
+            int i = 0;
             //ちゃんと出来てるか確認
             foreach (var m in manotree)
             {
                 Console.WriteLine("{0} {1}", m.Key, m.Value);
+                output[i] = new Serial(m.Key, m.Value);
+                i++;
             }
 
+            //出力
+            //http://www.atmarkit.co.jp/ait/articles/1704/19/news021.html
+            string File = @"output.xml";
+            var xmls = new XmlSerializer(typeof(Serial[]));
+            using (var streamWriter = new StreamWriter(File, false, Encoding.UTF8))
+            {
+                xmls.Serialize(streamWriter, output);
+                streamWriter.Flush();
+            }
         }
-
     }
 }
