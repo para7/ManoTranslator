@@ -73,7 +73,8 @@ namespace HuffmanCoding
 
                 //辞書に登録
                 manotree.Add(c[0], value);
-                check.Add(value, c[0]);
+                //重複チェック用　ここのコメントを外して例外が出なければ完成
+                //check.Add(value, c[0]);
             }
             else
             {
