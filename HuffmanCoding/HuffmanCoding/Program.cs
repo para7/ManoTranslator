@@ -15,6 +15,8 @@ namespace HuffmanCoding
         public Node Right;
 
         public ListData data;
+
+        public char code;
     }
 
     //文字と確率のペア
@@ -63,18 +65,18 @@ namespace HuffmanCoding
             string c = sta.First().data.c;
 
             //sta.Count > 1...根以外
-            if (sta.Count > 1 && (c != "0" && c != "1"))
+            if (sta.Count > 1 && c.Length == 1)
             {
                 //履歴を文字列にする
-                var hoge = new string(sta.Select(x => x.data.c.First()).ToArray());
-            
+                var hoge = new string(sta.Select(x => x.code).ToArray());
+
                 //Reverseは不要かもしれない
-                var value = new string(hoge.Substring(1, hoge.Length - 2).Reverse().ToArray()).Replace("0", "ほわっ").Replace("1", "むんっ");
+                var value = new string(hoge.Substring(0, hoge.Length-1).Reverse().ToArray());//.Replace("0", "ほわっ").Replace("1", "むんっ");
 
                 //辞書に登録
                 manotree.Add(c[0], value);
                 //重複チェック用　ここのコメントを外して例外が出なければ完成
-                //check.Add(value, c[0]);
+                check.Add(value, c[0]);
             }
             else
             {
@@ -93,15 +95,8 @@ namespace HuffmanCoding
         static Node MakeTree(Node parent, Node left, Node right)
         {
             //文字列は加算されて構成されているので、この条件式は終端ノード以外、を意味する
-            if (left.data.c.Length > 1)
-            {
-                left.data.c = "0";
-            }
-
-            if (right.data.c.Length > 1)
-            {
-                right.data.c = "1";
-            }
+            left.code = '0';
+            right.code = '1';
 
             //連結
             right.parent = parent;
@@ -205,7 +200,7 @@ namespace HuffmanCoding
             manotree = new Dictionary<char, string>();
             check = new Dictionary<string, char>();
 
-            root.data.c = " ";
+            root.code = ' ';
 
             dfs();
 
