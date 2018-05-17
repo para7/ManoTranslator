@@ -138,7 +138,7 @@ namespace HuffmanCoding
 
             foreach (var c in manu)
             {
-                str += new string(c, 1200);
+                str += new string(c, 2000);
             }
 
             var dic = new SortedList<char, int>();

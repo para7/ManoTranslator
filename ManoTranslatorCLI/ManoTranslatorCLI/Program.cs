@@ -25,7 +25,7 @@ namespace ManoTranslatorCLI
     static class Program
     {
         static Dictionary<char, string> encode;
-        static Dictionary<char, string> decode;
+        static Dictionary<string, char> decode;
 
         static void Main(string[] args)
         {
@@ -37,15 +37,56 @@ namespace ManoTranslatorCLI
 
             var Filepath = "output.xml";
 
+            if (!System.IO.File.Exists(Filepath))
+            {
+                Console.WriteLine("output.xmlが見つかりません");
+                return;
+            }
+
             using (var streamReader = new StreamReader(Filepath, Encoding.UTF8))
             {
                 data = (Serial[])reader.Deserialize(streamReader);
             }
 
-            foreach(var x in data)
+            encode = new Dictionary<char, string>();
+            decode = new Dictionary<string, char>();
+            foreach (var x in data)
             {
-                Console.WriteLine("{0} {1}", x.key, x.value);
+                encode.Add(x.key, x.value);
+                decode.Add(x.value, x.key);
             }
+
+            string print = "";
+
+            switch (args.Length)
+            {
+                //エンコード
+                case 1:
+                    print = Encode(args[0]);
+                    break;
+
+                //オプションを判断
+                case 2:
+                    break;
+
+                //ヘルプを表示
+                default:
+                    break;
+            }
+
+            Console.WriteLine(print);
+        }
+
+        static string Encode(string str)
+        {
+            string ret = "";
+
+            foreach(var c in str)
+            {
+                ret += encode[c];
+            }
+
+            return ret;
         }
     }
 }
