@@ -67,6 +67,16 @@ namespace ManoTranslatorCLI
 
                 //オプションを判断
                 case 2:
+                    if(args[0] == "-d" || args[0] == "-decode")
+                    {
+                        print = Decode(args[1]);
+                    }
+                    else
+                    {
+                        //ヘルプを表示
+
+                        return;
+                    }
                     break;
 
                 //ヘルプを表示
@@ -74,7 +84,8 @@ namespace ManoTranslatorCLI
                     break;
             }
 
-            Console.WriteLine(print);
+            Console.Write(print);
+
         }
 
         static string Encode(string str)
@@ -84,6 +95,30 @@ namespace ManoTranslatorCLI
             foreach(var c in str)
             {
                 ret += encode[c];
+            }
+
+            return ret;
+        }
+
+        static string Decode(string str)
+        {
+            string ret = "";
+
+            string match = "";
+            while(str.Length > 0)
+            {
+                var s = str.Substring(0, 3);
+                
+                str = str.Substring(3);
+
+                match += s;
+
+                if(decode.ContainsKey(match))
+                {
+                    ret += decode[match];
+                    match = "";
+                    continue;
+                }
             }
 
             return ret;
