@@ -45,6 +45,57 @@ namespace HuffmanCoding
             list.AddLast(node);
         }
 
+
+        static Stack<Node> sta;
+
+        static Dictionary<char, string> manotree;
+
+        static void dfs()
+        {
+            string c = sta.First().data.c;
+
+            if (sta.Count > 1 && (c != "0" && c != "1"))
+            {
+
+                var hoge = new string(sta.Select(x => x.data.c.First()).ToArray());
+            
+                var value = new string(hoge.Substring(1, hoge.Length - 2).Reverse().ToArray()).Replace("0", "ほわっ").Replace("1", "むんっ");
+
+                manotree.Add(c[0], value);
+            }
+            else
+            {
+                sta.Push(sta.First().Left);
+                dfs();
+
+                sta.Push(sta.First().Right);
+                dfs();
+            }
+
+            sta.Pop();
+        }
+
+        static Node MakeTree(Node parent, Node left, Node right)
+        {
+            if (left.data.c.Length > 1)
+            {
+                left.data.c = "0";
+            }
+
+            if (right.data.c.Length > 1)
+            {
+                right.data.c = "1";
+            }
+
+            right.parent = parent;
+            left.parent = parent;
+
+            parent.Right = right;
+            parent.Left = left;
+
+            return parent;
+        }
+
         static void Main(string[] args)
         {
             StreamReader reader = new StreamReader("data.txt");
@@ -88,7 +139,7 @@ namespace HuffmanCoding
             }
 
             dic = null;
-            
+
             //確率の表示
             double p = 0;
             foreach (var l in list)
@@ -135,61 +186,16 @@ namespace HuffmanCoding
 
             manotree = new Dictionary<char, string>();
 
-            //root.data.c = " ";
+            root.data.c = " ";
 
             dfs();
 
             foreach (var m in manotree)
             {
-                Console.WriteLine("{0}, {1}", m.Key, m.Value);
+                Console.WriteLine("{0} {1}", m.Key, m.Value);
             }
 
         }
 
-        static Stack<Node> sta;
-
-        static Dictionary<char, string> manotree;
-
-        static void dfs()
-        {
-            string c = sta.First().data.c;
-
-            if (sta.Count > 1 && (c != "0" && c != "1"))
-            {
-                var hoge = new string( sta.Select(x => x.data.c.First()).ToArray() );
-                Console.WriteLine("{0} {1}", c, hoge);
-            }
-            else
-            {
-                sta.Push(sta.First().Left);
-                dfs();
-
-                sta.Push(sta.First().Right);
-                dfs();
-            }
-
-            sta.Pop();
-        }
-
-        static Node MakeTree(Node parent, Node left, Node right)
-        {
-            if (left.data.c.Length > 1)
-            {
-                left.data.c = "0";
-            }
-            
-            if (right.data.c.Length > 1)
-            {
-                right.data.c = "1";
-            }
-
-            right.parent = parent;
-            left.parent = parent;
-            
-            parent.Right = right;
-            parent.Left = left;
-            
-            return parent;
-        }
     }
 }
