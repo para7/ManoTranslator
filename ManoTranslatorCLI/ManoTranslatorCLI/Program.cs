@@ -103,6 +103,12 @@ namespace ManoTranslatorCLI
 
             foreach(var c in str)
             {
+                if(!encode.ContainsKey(c))
+                {
+                    ret += c;
+                    continue;
+                }
+
                 ret += encode[c];
             }
 
@@ -113,22 +119,53 @@ namespace ManoTranslatorCLI
         {
             string ret = "";
 
+            const string howa = "ほわっ";
+            const string mun = "むんっ";
+            int seek = 0;
+
             string match = "";
-            while(str.Length > 0)
+
+            while(seek < str.Length)
             {
-                var s = str.Substring(0, 3);
-                
-                str = str.Substring(3);
+                var c = str[seek];
+
+                if (c != howa.First() && c != mun.First())
+                {
+                    ret += match;
+                    ret += c;
+                    seek++;
+                    match = "";
+                    continue;
+                }
+
+                if(str.Length-seek < 3)
+                {
+                    ret += str.Substring(seek);
+                    break;
+                }
+
+                var s = str.Substring(seek, 3);
+
+                if(s != howa && s != mun)
+                {
+                    ret += match;
+                    ret += c;
+                    seek++;
+                    match = "";
+                    continue;
+                }
 
                 match += s;
+                seek += 3;
 
-                if(decode.ContainsKey(match))
+                if (decode.ContainsKey(match))
                 {
                     ret += decode[match];
                     match = "";
                     continue;
                 }
             }
+            ret += match;
 
             return ret;
         }
