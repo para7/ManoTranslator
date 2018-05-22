@@ -234,7 +234,7 @@ namespace HuffmanCoding
 
             //出力
             //http://www.atmarkit.co.jp/ait/articles/1704/19/news021.html
-            string File = @"output.xml";
+            string File = @"manodictionary.xml";
             var xmls = new XmlSerializer(typeof(Serial[]));
             using (var streamWriter = new StreamWriter(File, false, Encoding.UTF8))
             {

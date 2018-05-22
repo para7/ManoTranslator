@@ -35,11 +35,11 @@ namespace ManoTranslatorCLI
 
             Serial[] data;
 
-            var Filepath = "output.xml";
+            var Filepath = "manodictionary.xml";
 
             if (!System.IO.File.Exists(Filepath))
             {
-                Console.WriteLine("output.xmlが見つかりません");
+                Console.WriteLine("manodictionary.xmlが見つかりません");
                 return;
             }
 
