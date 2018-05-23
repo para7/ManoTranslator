@@ -4,6 +4,5 @@
 
 「ほわっ」と「むんっ」だけで会話することを目的としています。
 
-最新安定ビルドのツールは/toolのフォルダの中に入っています。
-
-現在、ver0.3ぐらいの完成度なのでバグや不具合が無数にあります。
+ダウンロードはこちらから
+[https://drive.google.com/open?id=1BHp23DZqXMj67nDongbmrbgSzt-bXjao]
