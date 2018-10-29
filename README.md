@@ -18,7 +18,13 @@ We can talk with only "ほわっ" and "むんっ".
 ZIP file(Windows)  
 https://drive.google.com/open?id=1_Y-rtaSequYLCKYZQQvlPGrxF2MvkB9a
 
-## Derivative Tools Information
+## Related Tools
+
+<https://github.com/poketorena/ManoTranslatorForWeb>
+
+<https://github.com/oigami/mano_translator_extension>
+
+## Tool Information
 
 [Hatena blog](http://para7note.hatenablog.com/entry/2018/05/24/010214)
 
