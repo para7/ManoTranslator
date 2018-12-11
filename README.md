@@ -1,6 +1,8 @@
 # ManoTranslator
 
-![櫻木真乃](https://pbs.twimg.com/media/DVnVeiwV4AIVJyL.jpg:large)
+dictionary version: 2
+
+櫻木真乃ちゃんのファン制作のような、謎のツール。
 
 # Start SHINY COLORS
 

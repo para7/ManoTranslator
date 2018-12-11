@@ -127,19 +127,22 @@ namespace HuffmanCoding
 
         static void Main(string[] args)
         {
-            StreamReader reader = new StreamReader("data.txt");
+            StreamReader reader = new StreamReader("data.txt", System.Text.Encoding.GetEncoding("shift_jis"));
 
             string str = new string(reader.ReadToEnd().Where(a => a != '゛').ToArray());
 
             reader.Close();
 
-            //出現確率の操作
+            //140字に抑えるために出現確率の操作
             string manu = "まのちゃんかわい";
 
             foreach (var c in manu)
             {
-                str += new string(c, 2000);
+                str += new string(c, 6600);
             }
+
+            //ハッシュタグを消す過程で#が全部消えてるので適当に追加
+            str += new string('#', 700);
 
             var dic = new SortedList<char, int>();
 
@@ -231,6 +234,18 @@ namespace HuffmanCoding
                 output[i] = new Serial(m.Key, m.Value);
                 i++;
             }
+
+            //「まのちゃんかわいい」の文字数を表示
+            const string sampletext = "まのちゃんかわいい";
+            string test = "";
+
+            foreach(var s in sampletext)
+            {
+                test += manotree[s];
+            }
+
+            Console.WriteLine("まのちゃんかわいい：{0}", test);
+            Console.WriteLine("文字数：{0}", test.Length);
 
             //出力
             //http://www.atmarkit.co.jp/ait/articles/1704/19/news021.html
