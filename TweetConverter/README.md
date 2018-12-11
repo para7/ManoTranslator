@@ -1,17 +1,19 @@
 # TweetConverter
 
-RTとハッシュタグを削除し、ひらがなのみのテキストデータに変換します。
+ツイート履歴のRTとハッシュタグを削除し、ひらがなのみのテキストデータに変換します。
+
+このリポジトリには変換元のデータは含めていません。
 
 カタカナや漢字などを変換する機能はないので、事前にひらがなにしておく必要があります。
 
+変換には、kakasiなどのツールを利用するとよいでしょう。  
 http://kakasi.namazu.org/index.html.ja  
-変換には、kakasiなどのツールを利用するといいです。
 
-コマンドライン処理（パイプ処理）に対応しています。
 
-使用例(バイナリは添付していないので、事前にビルドしておく必要があります)
+
+CLI上での変換メモ
 
 ```
-type tweets.txt | TweetConverter.exe > result.txt
+TweetConverter.exe < tweet.txt > result.txt
 ```
 
