@@ -7,7 +7,7 @@
         xmlns:prism="http://prismlibrary.com/"             
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"   
-        Title="MainWindow" Height="450" Width="800">
+        Title="ManoTranslator" Height="450" Width="800">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,10 +20,10 @@
         <TextBlock Grid.Row="0" Text="入力" FontSize="20"/>
         <TextBox Grid.Row="1" Text="{Binding InputText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Height="30" Margin="5">
-            <Button Command="{Binding EncodeCommand}" Width="100" Margin="30,0" Grid.Row="1" Content="ほわっ　むんっ"/>
-            <Button Command="{Binding DecodeCommand}" Width="100" Margin="30,0" Grid.Row="1" Content="にほんご"/>
+            <Button Command="{Binding EncodeCommand}" Width="100" Margin="30,0" Grid.Row="1" Content="ほわっむんっ"/>
+            <Button Command="{Binding DecodeCommand}" Width="100" Margin="30,0" Grid.Row="1" Content="解読する"/>
         </StackPanel>
-        <TextBlock Grid.Row="3" Text="出力" FontSize="20"/>
+        <TextBlock Grid.Row="3" Text="結果" FontSize="20"/>
         <TextBox Grid.Row="4" Text="{Binding OutputText.Value}" TextWrapping="Wrap"/>
 
     </Grid>
